@@ -1,103 +1,79 @@
 import { Device, Command } from '@/types';
-import { 
-  collection, 
-  doc, 
-  getDoc, 
-  onSnapshot, 
-  addDoc,
-  serverTimestamp 
-} from 'firebase/firestore';
-import { db } from '@/lib/firebase';
 
+// Mock Firebase API - replace with actual Firebase implementation
 class FirebaseAPI {
+  private devices: Map<string, Device> = new Map([
+    ['device-1', {
+      id: 'device-1',
+      name: 'Butik Norrmalm',
+      ipAddress: '192.168.1.100',
+      status: 'online',
+      playbackStatus: 'playing',
+      volume: 75,
+      streamUrl: 'https://stream.example.com/jazz',
+      uptime: '5d 12h 30m',
+      lastSeen: new Date(),
+    }],
+    ['device-2', {
+      id: 'device-2',
+      name: 'Butik Södermalm',
+      ipAddress: '192.168.1.101',
+      status: 'offline',
+      playbackStatus: 'stopped',
+      volume: 50,
+      uptime: '0d 0h 0m',
+      lastSeen: new Date(Date.now() - 3600000),
+    }],
+  ]);
+
   async getDevice(deviceId: string): Promise<Device | null> {
-    try {
-      // Hämta device från Firebase
-      const deviceRef = doc(db, 'config', 'devices', 'list', deviceId);
-      const deviceSnap = await getDoc(deviceRef);
-      
-      if (!deviceSnap.exists()) {
-        return null;
-      }
-      
-      const deviceData = deviceSnap.data();
-      
-      // Hämta gruppens streamUrl
-      const groupId = deviceData.groupId || deviceData.group;
-      let streamUrl = deviceData.streamUrl || '';
-      let groupName = groupId;
-      
-      if (groupId) {
-        const groupRef = doc(db, 'config', 'groups', 'list', groupId);
-        const groupSnap = await getDoc(groupRef);
-        
-        if (groupSnap.exists()) {
-          const groupData = groupSnap.data();
-          streamUrl = groupData.streamUrl || streamUrl;
-          groupName = groupData.name || groupId;
-        }
-      }
-      
-      // Konvertera till Device format
-      return {
-        id: deviceId,
-        name: deviceData.name || deviceId,
-        ipAddress: deviceData.ipAddress || 'unknown',
-        status: deviceData.status || 'offline',
-        playbackStatus: deviceData.status === 'playing' ? 'playing' : 
-                       deviceData.status === 'paused' ? 'paused' : 'stopped',
-        volume: deviceData.volume || 50,
-        streamUrl: streamUrl,
-        groupName: groupName,
-        uptime: deviceData.uptime ? this.formatUptime(deviceData.uptime) : '0d 0h 0m',
-        lastSeen: deviceData.lastSeen?.toDate() || new Date(),
-      };
-    } catch (error) {
-      console.error('Error getting device:', error);
-      return null;
-    }
+    await new Promise(resolve => setTimeout(resolve, 300));
+    return this.devices.get(deviceId) || null;
   }
 
   async sendCommand(deviceId: string, command: Command): Promise<void> {
-    try {
-      // Skapa kommando i Firebase
-      await addDoc(collection(db, 'config', 'commands', 'list'), {
-        deviceId: deviceId,
-        action: command.type,
-        streamUrl: command.streamUrl || null,
-        volume: command.volume || null,
-        timestamp: serverTimestamp(),
-        processed: false,
-      });
-      
-      console.log('✅ Command sent:', command.type);
-    } catch (error) {
-      console.error('❌ Error sending command:', error);
-      throw error;
+    await new Promise(resolve => setTimeout(resolve, 500));
+    
+    const device = this.devices.get(deviceId);
+    if (!device) throw new Error('Device not found');
+
+    // Update device state based on command
+    switch (command.type) {
+      case 'play':
+        device.playbackStatus = 'playing';
+        if (command.streamUrl) device.streamUrl = command.streamUrl;
+        if (command.volume !== undefined) device.volume = command.volume;
+        break;
+      case 'pause':
+        device.playbackStatus = 'paused';
+        break;
+      case 'stop':
+        device.playbackStatus = 'stopped';
+        break;
+      case 'volume':
+        if (command.volume !== undefined) device.volume = command.volume;
+        break;
+      case 'restart':
+        device.playbackStatus = 'stopped';
+        setTimeout(() => {
+          device.playbackStatus = 'playing';
+        }, 3000);
+        break;
     }
+
+    this.devices.set(deviceId, device);
   }
 
   subscribeToDevice(deviceId: string, callback: (device: Device) => void): () => void {
-    // Real-time updates från Firebase
-    const deviceRef = doc(db, 'config', 'devices', 'list', deviceId);
-    
-    const unsubscribe = onSnapshot(deviceRef, async (snapshot) => {
-      if (snapshot.exists()) {
-        const device = await this.getDevice(deviceId);
-        if (device) {
-          callback(device);
-        }
+    // Mock real-time updates
+    const interval = setInterval(() => {
+      const device = this.devices.get(deviceId);
+      if (device) {
+        callback(device);
       }
-    });
-    
-    return unsubscribe;
-  }
+    }, 2000);
 
-  private formatUptime(seconds: number): string {
-    const days = Math.floor(seconds / 86400);
-    const hours = Math.floor((seconds % 86400) / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
-    return `${days}d ${hours}h ${minutes}m`;
+    return () => clearInterval(interval);
   }
 }
 
