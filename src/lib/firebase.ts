@@ -7,7 +7,7 @@ const firebaseConfig = {
   projectId: "bashify-af01b",
   storageBucket: "bashify-af01b.firebasestorage.app",
   messagingSenderId: "710711085610",
-  appId: "1:710711085610:web:b2f14fb7f1dd6b17c0b4dd"
+  appId: "1:710711085610:web:b2f14fb7f1dd6b17c0b4dd",
 };
 
 const app = initializeApp(firebaseConfig);
