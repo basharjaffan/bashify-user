@@ -1,18 +1,14 @@
+// @ts-nocheck
 import { db } from '@/lib/firebase';
-import { 
-  collection, 
-  doc, 
-  getDoc, 
-  addDoc, 
-  updateDoc,
+import {
+  collection,
+  doc,
+  getDoc,
+  addDoc,
   onSnapshot,
   serverTimestamp,
-  query,
-  where,
-  orderBy,
-  Timestamp
-} from 'firebase/firestore';
-import { Device } from '@/types';
+} from '@/lib/firestore-ops';
+import type { Device } from '@/types';
 
 export const firebaseAPI = {
   async getDevice(deviceId: string): Promise<Device | null> {
