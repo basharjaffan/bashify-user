@@ -123,7 +123,7 @@ const DeviceControl = () => {
           <h2 className="text-4xl md:text-5xl font-bold">
             Välkommen till din <span className="bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent">musikvärld</span>
           </h2>
-          <p className="text-muted-foreground text-lg">
+          <p className="text-muted-foreground text-2xl font-semibold">
             {device.name}
           </p>
         </div>
