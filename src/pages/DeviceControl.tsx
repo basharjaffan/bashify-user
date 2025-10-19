@@ -7,8 +7,8 @@ import { MusicPlayer } from '@/components/MusicPlayer';
 import { DeviceStatus } from '@/components/DeviceStatus';
 import { VolumeControl } from '@/components/VolumeControl';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { LogOut, RefreshCw, Music2, Volume2, Radio, Activity, Music } from 'lucide-react';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { LogOut, RefreshCw, Music2, Volume2, Radio } from 'lucide-react';
 import { toast } from 'sonner';
 
 const DeviceControl = () => {
@@ -83,134 +83,106 @@ const DeviceControl = () => {
 
   if (isLoading || !device) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background via-background to-primary/5">
-        <div className="text-center space-y-4">
-          <div className="relative">
-            <Music className="h-16 w-16 mx-auto text-primary glow-effect animate-pulse" />
-            <div className="absolute inset-0 h-16 w-16 mx-auto bg-primary/20 rounded-full blur-xl animate-pulse" />
-          </div>
-          <p className="text-lg text-muted-foreground">Laddar din musikenhet...</p>
-        </div>
+      <div className="min-h-screen flex items-center justify-center">
+        <RefreshCw className="h-8 w-8 animate-spin text-primary" />
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-primary/5">
-      {/* Header */}
-      <header className="border-b border-border/50 bg-card/30 backdrop-blur-xl sticky top-0 z-50">
-        <div className="container mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <Music className="h-8 w-8 text-primary" />
-            <h1 className="text-2xl font-bold text-foreground">Bashify</h1>
+    <div className="min-h-screen bg-background">
+      {/* Top Navigation */}
+      <header className="border-b border-border bg-card sticky top-0 z-50">
+        <div className="flex items-center justify-between px-6 py-3">
+          <div className="flex items-center gap-8">
+            <div className="flex items-center gap-2">
+              <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
+                <Music2 className="h-5 w-5 text-primary-foreground" />
+              </div>
+              <div>
+                <h1 className="text-lg font-bold text-foreground">Bashify</h1>
+                <p className="text-xs text-muted-foreground">Music System</p>
+              </div>
+            </div>
           </div>
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            onClick={handleLogout}
-            className="hover:bg-destructive/10 hover:text-destructive transition-colors"
-          >
-            <LogOut className="h-4 w-4 mr-2" />
-            Logga ut
-          </Button>
+          
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-success/10 text-success text-sm">
+              <div className="w-2 h-2 rounded-full bg-success animate-pulse" />
+              System Online
+            </div>
+            <Button variant="ghost" size="sm" onClick={handleLogout}>
+              <LogOut className="h-4 w-4 mr-2" />
+              Logga ut
+            </Button>
+          </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-6 py-12 max-w-6xl">
-        {/* Hero Section */}
-        <div className="text-center mb-12 space-y-4 animate-fade-in">
-          <h2 className="text-4xl md:text-5xl font-bold">
-            Välkommen till din <span className="bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent">musikvärld</span>
-          </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Kontrollera din Bashify-enhet med enkel och kraftfull styrning
-          </p>
-        </div>
+      <main className="p-6">
+        <div className="max-w-7xl mx-auto space-y-6">
+          <div>
+            <h2 className="text-3xl font-bold text-foreground mb-1">Device Control</h2>
+            <p className="text-muted-foreground">Control your music device</p>
+          </div>
 
-        {/* Quick Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-          <Card className="bg-gradient-to-br from-card to-card/50 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all hover:scale-105 duration-300 glow-effect-accent">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-                <div className="p-2 rounded-lg bg-primary/10">
-                  <Radio className="h-4 w-4 text-primary" />
+          {/* Stats Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <Card className="border-border bg-card">
+              <CardContent className="pt-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm text-muted-foreground mb-1">Status</p>
+                    <p className="text-2xl font-bold text-foreground capitalize">{device.playbackStatus}</p>
+                  </div>
+                  <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${
+                    device.playbackStatus === 'playing' ? 'bg-primary/20 text-primary' :
+                    device.playbackStatus === 'paused' ? 'bg-warning/20 text-warning' :
+                    'bg-muted text-muted-foreground'
+                  }`}>
+                    <Music2 className="h-6 w-6" />
+                  </div>
                 </div>
-                Enhetsstatus
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold">
-                {device.status === 'online' ? (
-                  <span className="text-success flex items-center gap-2">
-                    <span className="h-2 w-2 bg-success rounded-full animate-pulse" />
-                    Online
-                  </span>
-                ) : (
-                  <span className="text-destructive flex items-center gap-2">
-                    <span className="h-2 w-2 bg-destructive rounded-full" />
-                    Offline
-                  </span>
-                )}
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
 
-          <Card className="bg-gradient-to-br from-card to-card/50 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all hover:scale-105 duration-300 glow-effect-accent">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-                <div className="p-2 rounded-lg bg-primary/10">
-                  <Volume2 className="h-4 w-4 text-primary" />
+            <Card className="border-border bg-card">
+              <CardContent className="pt-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm text-muted-foreground mb-1">Volume</p>
+                    <p className="text-2xl font-bold text-foreground">{device.volume}%</p>
+                  </div>
+                  <div className="w-12 h-12 rounded-lg bg-primary/20 text-primary flex items-center justify-center">
+                    <Volume2 className="h-6 w-6" />
+                  </div>
                 </div>
-                Aktuell volym
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold text-primary">{device.volume}%</div>
-              <div className="mt-2 h-2 bg-secondary rounded-full overflow-hidden">
-                <div 
-                  className="h-full bg-gradient-to-r from-primary to-primary-glow transition-all duration-300"
-                  style={{ width: `${device.volume}%` }}
-                />
-              </div>
-            </CardContent>
-          </Card>
+              </CardContent>
+            </Card>
 
-          <Card className="bg-gradient-to-br from-card to-card/50 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all hover:scale-105 duration-300 glow-effect-accent">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-                <div className="p-2 rounded-lg bg-primary/10">
-                  <Activity className="h-4 w-4 text-primary" />
+            <Card className="border-border bg-card">
+              <CardContent className="pt-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm text-muted-foreground mb-1">Connection</p>
+                    <p className="text-2xl font-bold text-foreground capitalize">{device.status}</p>
+                  </div>
+                  <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${
+                    device.status === 'online' ? 'bg-success/20 text-success' :
+                    'bg-destructive/20 text-destructive'
+                  }`}>
+                    <Radio className="h-6 w-6" />
+                  </div>
                 </div>
-                Uppspelning
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-3xl font-bold">
-                {device.playbackStatus === 'playing' ? (
-                  <span className="text-primary flex items-center gap-2">
-                    <span className="h-2 w-2 bg-primary rounded-full animate-pulse" />
-                    Spelar
-                  </span>
-                ) : device.playbackStatus === 'paused' ? (
-                  <span className="text-warning">Pausad</span>
-                ) : (
-                  <span className="text-muted-foreground">Stoppad</span>
-                )}
-              </div>
-            </CardContent>
-          </Card>
-        </div>
+              </CardContent>
+            </Card>
+          </div>
 
-        {/* Main Control Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Music Player */}
-          <Card className="bg-gradient-to-br from-card via-card to-primary/5 backdrop-blur-sm border-primary/20 animate-fade-in">
+          {/* Player Card */}
+          <Card className="border-border bg-card">
             <CardHeader>
-              <CardTitle className="text-2xl flex items-center gap-3">
-                <Music className="h-6 w-6 text-primary" />
-                Musikuppspelning
-              </CardTitle>
+              <DeviceStatus device={device} />
             </CardHeader>
             <CardContent className="space-y-6">
               <MusicPlayer
@@ -221,54 +193,23 @@ const DeviceControl = () => {
                 onRestart={() => sendCommand('restart')}
                 isLoading={commandLoading}
               />
+
+              <div className="pt-4 border-t border-border">
+                <VolumeControl
+                  volume={device.volume}
+                  onChange={(vol) => sendCommand('volume', vol)}
+                  disabled={device.status === 'offline' || commandLoading}
+                />
+              </div>
             </CardContent>
           </Card>
 
-          {/* Volume Control */}
-          <Card className="bg-gradient-to-br from-card via-card to-primary/5 backdrop-blur-sm border-primary/20 animate-fade-in">
-            <CardHeader>
-              <CardTitle className="text-2xl flex items-center gap-3">
-                <Volume2 className="h-6 w-6 text-primary" />
-                Volymkontroll
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <VolumeControl
-                volume={device.volume}
-                onChange={(volume) => sendCommand('volume', volume)}
-                disabled={device.status === 'offline' || commandLoading}
-              />
-            </CardContent>
-          </Card>
-        </div>
-
-        {/* Device Info */}
-        <Card className="mt-8 bg-gradient-to-br from-card to-card/50 backdrop-blur-sm border-border/50 animate-fade-in">
-          <CardHeader>
-            <CardTitle className="text-xl flex items-center gap-3">
-              <Radio className="h-5 w-5 text-primary" />
-              Enhetsinformation
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <DeviceStatus device={device} />
-          </CardContent>
-        </Card>
-      </main>
-
-      {/* Footer */}
-      <footer className="border-t border-border/50 bg-card/20 backdrop-blur-xl mt-16">
-        <div className="container mx-auto px-6 py-8 text-center">
-          <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground mb-2">
-            <Music className="h-4 w-4 text-primary" />
-            <span className="font-medium">Device ID:</span>
-            <span className="font-mono text-primary">device-1</span>
+          {/* Footer Info */}
+          <div className="text-center text-sm text-muted-foreground pt-4">
+            <p>Device ID: device-1</p>
           </div>
-          <p className="text-xs text-muted-foreground/60">
-            Bashify Music Control System © 2025
-          </p>
         </div>
-      </footer>
+      </main>
     </div>
   );
 };
