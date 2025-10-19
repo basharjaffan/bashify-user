@@ -50,12 +50,12 @@ const DeviceControl = () => {
 
     setCommandLoading(true);
     try {
-      await firebaseAPI.sendCommand(device.id, {
+      await firebaseAPI.sendCommand(
+        device.id, 
         type,
-        streamUrl: type === 'play' ? device.streamUrl : undefined,
-        volume,
-        timestamp: new Date(),
-      });
+        type === 'play' ? device.streamUrl : undefined,
+        volume
+      );
 
       const messages = {
         play: 'Startar uppspelning',
