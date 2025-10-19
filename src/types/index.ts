@@ -6,15 +6,9 @@ export interface Device {
   playbackStatus: 'playing' | 'paused' | 'stopped';
   volume: number;
   streamUrl?: string;
-  uptime?: string;
-  lastSeen?: Date;
-  group?: string;
-}
-
-export interface User {
-  id: string;
-  email: string;
-  deviceIds: string[];
+  groupName?: string;
+  uptime: string;
+  lastSeen: Date;
 }
 
 export interface Command {
