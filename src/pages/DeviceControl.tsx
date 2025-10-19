@@ -8,7 +8,7 @@ import { DeviceStatus } from '@/components/DeviceStatus';
 import { VolumeControl } from '@/components/VolumeControl';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { LogOut, RefreshCw } from 'lucide-react';
+import { LogOut, RefreshCw, Music2 } from 'lucide-react';
 import { toast } from 'sonner';
 
 const DeviceControl = () => {
@@ -97,44 +97,126 @@ const DeviceControl = () => {
   }
 
   return (
-    <div className="min-h-screen p-4 pb-8">
-      <div className="max-w-2xl mx-auto space-y-4">
-        <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-bold">Musikbox Kontroll</h1>
-          <Button variant="secondary" size="sm" onClick={handleLogout}>
-            <LogOut className="h-4 w-4 mr-2" />
-            Logga ut
-          </Button>
-        </div>
-
-        <Card className="glow-effect">
-          <CardHeader>
-            <DeviceStatus device={device} />
-          </CardHeader>
-          <CardContent className="space-y-6">
-            <MusicPlayer
-              device={device}
-              onPlay={() => sendCommand('play')}
-              onPause={() => sendCommand('pause')}
-              onStop={() => sendCommand('stop')}
-              onRestart={() => sendCommand('restart')}
-              isLoading={commandLoading}
-            />
-
-            <div className="pt-4 border-t border-border">
-              <VolumeControl
-                volume={device.volume}
-                onChange={(vol) => sendCommand('volume', vol)}
-                disabled={device.status === 'offline' || commandLoading}
-              />
+    <div className="min-h-screen bg-background">
+      {/* Top Navigation */}
+      <header className="border-b border-border bg-card sticky top-0 z-50">
+        <div className="flex items-center justify-between px-6 py-3">
+          <div className="flex items-center gap-8">
+            <div className="flex items-center gap-2">
+              <div className="w-10 h-10 rounded-lg bg-primary flex items-center justify-center">
+                <Music2 className="h-5 w-5 text-primary-foreground" />
+              </div>
+              <div>
+                <h1 className="text-lg font-bold text-foreground">Bashify</h1>
+                <p className="text-xs text-muted-foreground">Music System</p>
+              </div>
             </div>
-          </CardContent>
-        </Card>
-
-        <div className="text-center text-sm text-muted-foreground">
-          <p>Inloggad som {user?.email}</p>
+          </div>
+          
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-success/10 text-success text-sm">
+              <div className="w-2 h-2 rounded-full bg-success animate-pulse" />
+              System Online
+            </div>
+            <Button variant="ghost" size="sm" onClick={handleLogout}>
+              <LogOut className="h-4 w-4 mr-2" />
+              Logga ut
+            </Button>
+          </div>
         </div>
-      </div>
+      </header>
+
+      {/* Main Content */}
+      <main className="p-6">
+        <div className="max-w-7xl mx-auto space-y-6">
+          <div>
+            <h2 className="text-3xl font-bold text-foreground mb-1">Device Control</h2>
+            <p className="text-muted-foreground">Control your music device</p>
+          </div>
+
+          {/* Stats Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <Card className="border-border bg-card">
+              <CardContent className="pt-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm text-muted-foreground mb-1">Status</p>
+                    <p className="text-2xl font-bold text-foreground capitalize">{device.playbackStatus}</p>
+                  </div>
+                  <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${
+                    device.playbackStatus === 'playing' ? 'bg-primary/20 text-primary' :
+                    device.playbackStatus === 'paused' ? 'bg-warning/20 text-warning' :
+                    'bg-muted text-muted-foreground'
+                  }`}>
+                    <Music2 className="h-6 w-6" />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="border-border bg-card">
+              <CardContent className="pt-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm text-muted-foreground mb-1">Volume</p>
+                    <p className="text-2xl font-bold text-foreground">{device.volume}%</p>
+                  </div>
+                  <div className="w-12 h-12 rounded-lg bg-primary/20 text-primary flex items-center justify-center">
+                    <span className="text-2xl">🔊</span>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+
+            <Card className="border-border bg-card">
+              <CardContent className="pt-6">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-sm text-muted-foreground mb-1">Connection</p>
+                    <p className="text-2xl font-bold text-foreground capitalize">{device.status}</p>
+                  </div>
+                  <div className={`w-12 h-12 rounded-lg flex items-center justify-center ${
+                    device.status === 'online' ? 'bg-success/20 text-success' :
+                    'bg-destructive/20 text-destructive'
+                  }`}>
+                    <div className={`w-3 h-3 rounded-full ${device.status === 'online' ? 'bg-success animate-pulse' : 'bg-destructive'}`} />
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Player Card */}
+          <Card className="border-border bg-card">
+            <CardHeader>
+              <DeviceStatus device={device} />
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <MusicPlayer
+                device={device}
+                onPlay={() => sendCommand('play')}
+                onPause={() => sendCommand('pause')}
+                onStop={() => sendCommand('stop')}
+                onRestart={() => sendCommand('restart')}
+                isLoading={commandLoading}
+              />
+
+              <div className="pt-4 border-t border-border">
+                <VolumeControl
+                  volume={device.volume}
+                  onChange={(vol) => sendCommand('volume', vol)}
+                  disabled={device.status === 'offline' || commandLoading}
+                />
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Footer Info */}
+          <div className="text-center text-sm text-muted-foreground pt-4">
+            <p>Logged in as {user?.email}</p>
+          </div>
+        </div>
+      </main>
     </div>
   );
 };

@@ -32,23 +32,23 @@ const UserLogin = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
-      <Card className="w-full max-w-md">
-        <CardHeader className="space-y-4 text-center">
-          <div className="mx-auto w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center glow-effect">
-            <Music2 className="h-8 w-8 text-primary" />
+    <div className="min-h-screen flex items-center justify-center p-4 bg-background">
+      <Card className="w-full max-w-md border-border">
+        <CardHeader className="space-y-4 text-center pb-4">
+          <div className="mx-auto w-14 h-14 rounded-lg bg-primary flex items-center justify-center">
+            <Music2 className="h-7 w-7 text-primary-foreground" />
           </div>
           <div>
-            <CardTitle className="text-2xl">MusicBox Portal</CardTitle>
-            <CardDescription>
-              Logga in för att kontrollera dina musikboxar
+            <CardTitle className="text-2xl font-bold">Bashify</CardTitle>
+            <CardDescription className="text-muted-foreground mt-1">
+              Music System
             </CardDescription>
           </div>
         </CardHeader>
-        <CardContent>
+        <CardContent className="pt-4">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+              <Label htmlFor="email" className="text-sm">Email</Label>
               <Input
                 id="email"
                 type="email"
@@ -56,10 +56,11 @@ const UserLogin = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 disabled={isLoading}
+                className="bg-input border-border"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password">Lösenord</Label>
+              <Label htmlFor="password" className="text-sm">Lösenord</Label>
               <Input
                 id="password"
                 type="password"
@@ -67,16 +68,17 @@ const UserLogin = () => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 disabled={isLoading}
+                className="bg-input border-border"
               />
             </div>
             <Button 
               type="submit" 
-              className="w-full h-12 text-lg glow-effect" 
+              className="w-full h-11 text-base font-medium" 
               disabled={isLoading}
             >
               {isLoading ? (
                 <>
-                  <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   Loggar in...
                 </>
               ) : (

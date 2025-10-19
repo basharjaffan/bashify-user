@@ -8,47 +8,47 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 222 47% 11%;
-    --foreground: 210 40% 98%;
+    --background: 0 0% 4%;
+    --foreground: 0 0% 98%;
 
-    --card: 217 33% 17%;
-    --card-foreground: 210 40% 98%;
+    --card: 0 0% 10%;
+    --card-foreground: 0 0% 98%;
 
-    --popover: 222 47% 11%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 0 0% 8%;
+    --popover-foreground: 0 0% 98%;
 
-    --primary: 263 70% 50%;
-    --primary-foreground: 210 40% 98%;
-    --primary-glow: 263 70% 60%;
+    --primary: 142 76% 50%;
+    --primary-foreground: 0 0% 4%;
+    --primary-glow: 142 76% 60%;
 
-    --secondary: 217 33% 22%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 0 0% 15%;
+    --secondary-foreground: 0 0% 98%;
 
-    --muted: 217 33% 17%;
-    --muted-foreground: 215 20% 65%;
+    --muted: 0 0% 12%;
+    --muted-foreground: 0 0% 60%;
 
-    --accent: 188 94% 43%;
-    --accent-foreground: 222 47% 11%;
+    --accent: 142 76% 50%;
+    --accent-foreground: 0 0% 4%;
 
-    --success: 142 76% 36%;
-    --success-foreground: 210 40% 98%;
+    --success: 142 76% 50%;
+    --success-foreground: 0 0% 4%;
 
     --destructive: 0 84% 60%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 0 0% 98%;
 
     --warning: 38 92% 50%;
-    --warning-foreground: 222 47% 11%;
+    --warning-foreground: 0 0% 4%;
 
-    --border: 217 33% 25%;
-    --input: 217 33% 25%;
-    --ring: 263 70% 50%;
+    --border: 0 0% 20%;
+    --input: 0 0% 15%;
+    --ring: 142 76% 50%;
 
-    --radius: 0.75rem;
+    --radius: 0.5rem;
 
-    --gradient-primary: linear-gradient(135deg, hsl(263 70% 50%), hsl(263 70% 60%));
-    --gradient-accent: linear-gradient(135deg, hsl(188 94% 43%), hsl(263 70% 50%));
-    --shadow-glow: 0 0 30px hsl(263 70% 50% / 0.3);
-    --shadow-glow-accent: 0 0 30px hsl(188 94% 43% / 0.4);
+    --gradient-primary: linear-gradient(135deg, hsl(142 76% 50%), hsl(142 76% 60%));
+    --gradient-accent: linear-gradient(135deg, hsl(142 76% 50%), hsl(142 76% 40%));
+    --shadow-glow: 0 0 30px hsl(142 76% 50% / 0.3);
+    --shadow-glow-accent: 0 0 30px hsl(142 76% 50% / 0.4);
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   }
 }
