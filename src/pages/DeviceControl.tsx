@@ -101,16 +101,8 @@ const DeviceControl = () => {
       <header className="border-b border-border/50 bg-card/30 backdrop-blur-xl sticky top-0 z-50">
         <div className="container mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="relative">
-              <Music className="h-10 w-10 text-primary glow-effect" />
-              <Activity className="h-3 w-3 text-success absolute -bottom-1 -right-1 animate-pulse" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent">
-                Bashify
-              </h1>
-              <p className="text-xs text-muted-foreground">Music Control System</p>
-            </div>
+            <Music className="h-8 w-8 text-primary" />
+            <h1 className="text-2xl font-bold text-foreground">Bashify</h1>
           </div>
           <Button 
             variant="ghost" 
