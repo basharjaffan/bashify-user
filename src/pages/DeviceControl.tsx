@@ -121,8 +121,11 @@ const DeviceControl = () => {
         {/* Hero Section */}
         <div className="text-center mb-12 space-y-4 animate-fade-in">
           <h2 className="text-4xl md:text-5xl font-bold">
-            Välkommen till <span className="bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent">{device.name}</span>
+            Välkommen till din <span className="bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent">musikvärld</span>
           </h2>
+          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
+            Kontrollera din Bashify-enhet med enkel och kraftfull styrning
+          </p>
         </div>
 
         {/* Quick Stats */}
