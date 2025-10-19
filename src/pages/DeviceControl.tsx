@@ -19,13 +19,8 @@ const DeviceControl = () => {
   const [commandLoading, setCommandLoading] = useState(false);
 
   useEffect(() => {
-    if (!user) {
-      navigate('/login');
-      return;
-    }
-
-    // Load first device
-    const deviceId = user.deviceIds[0];
+    // Load first device (skip auth for now)
+    const deviceId = 'device-1';
     loadDevice(deviceId);
 
     // Subscribe to real-time updates
@@ -34,7 +29,7 @@ const DeviceControl = () => {
     });
 
     return () => unsubscribe();
-  }, [user, navigate]);
+  }, []);
 
   const loadDevice = async (deviceId: string) => {
     setIsLoading(true);
@@ -83,8 +78,6 @@ const DeviceControl = () => {
   };
 
   const handleLogout = () => {
-    logout();
-    navigate('/login');
     toast.success('Utloggad');
   };
 
@@ -213,7 +206,7 @@ const DeviceControl = () => {
 
           {/* Footer Info */}
           <div className="text-center text-sm text-muted-foreground pt-4">
-            <p>Logged in as {user?.email}</p>
+            <p>Device ID: device-1</p>
           </div>
         </div>
       </main>
