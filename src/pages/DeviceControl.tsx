@@ -123,8 +123,8 @@ const DeviceControl = () => {
           <h2 className="text-4xl md:text-5xl font-bold">
             Välkommen till din <span className="bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent">musikvärld</span>
           </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Kontrollera din Bashify-enhet med enkel och kraftfull styrning
+          <p className="text-muted-foreground text-lg">
+            {device.name}
           </p>
         </div>
 
