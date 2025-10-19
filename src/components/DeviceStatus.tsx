@@ -46,11 +46,11 @@ export const DeviceStatus = ({ device }: DeviceStatusProps) => {
             <span className="text-muted-foreground">Uptime:</span>
             <span className="font-medium">{device.uptime}</span>
           </div>
-          {device.group && (
+          {device.streamUrl && (
             <div className="col-span-2">
-              <span className="text-muted-foreground">Grupp: </span>
+              <span className="text-muted-foreground">Stream: </span>
               <span className="font-medium text-accent truncate block">
-                {device.group}
+                {device.streamUrl}
               </span>
             </div>
           )}

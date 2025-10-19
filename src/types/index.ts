@@ -8,7 +8,6 @@ export interface Device {
   streamUrl?: string;
   uptime?: string;
   lastSeen?: Date;
-  group?: string;
 }
 
 export interface User {
