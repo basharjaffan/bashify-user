@@ -8,7 +8,7 @@ import { DeviceStatus } from '@/components/DeviceStatus';
 import { VolumeControl } from '@/components/VolumeControl';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { LogOut, RefreshCw, Music2 } from 'lucide-react';
+import { LogOut, RefreshCw, Music2, Volume2, Radio } from 'lucide-react';
 import { toast } from 'sonner';
 
 const DeviceControl = () => {
@@ -155,7 +155,7 @@ const DeviceControl = () => {
                     <p className="text-2xl font-bold text-foreground">{device.volume}%</p>
                   </div>
                   <div className="w-12 h-12 rounded-lg bg-primary/20 text-primary flex items-center justify-center">
-                    <span className="text-2xl">🔊</span>
+                    <Volume2 className="h-6 w-6" />
                   </div>
                 </div>
               </CardContent>
@@ -172,7 +172,7 @@ const DeviceControl = () => {
                     device.status === 'online' ? 'bg-success/20 text-success' :
                     'bg-destructive/20 text-destructive'
                   }`}>
-                    <div className={`w-3 h-3 rounded-full ${device.status === 'online' ? 'bg-success animate-pulse' : 'bg-destructive'}`} />
+                    <Radio className="h-6 w-6" />
                   </div>
                 </div>
               </CardContent>
