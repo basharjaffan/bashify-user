@@ -20,7 +20,7 @@ const DeviceControl = () => {
 
   useEffect(() => {
     // Load first device (skip auth for now)
-    const deviceId = 'device-1';
+    const deviceId = '05d0dda82ffb5c5d';
     loadDevice(deviceId);
 
     // Subscribe to real-time updates
