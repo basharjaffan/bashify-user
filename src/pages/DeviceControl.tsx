@@ -58,10 +58,10 @@ const DeviceControl = () => {
       );
 
       const messages = {
-        play: 'Startar uppspelning',
-        pause: 'Pausar uppspelning',
-        stop: 'Stoppar uppspelning',
-        restart: 'Startar om enheten',
+        play: 'Starting playback',
+        pause: 'Pausing playback',
+        stop: 'Stopping playback',
+        restart: 'Restarting device',
       };
 
       if (type !== 'volume') {
@@ -79,7 +79,7 @@ const DeviceControl = () => {
   };
 
   const handleLogout = () => {
-    toast.success('Utloggad');
+    toast.success('Logged out');
   };
 
   if (isLoading || !device) {
@@ -90,7 +90,7 @@ const DeviceControl = () => {
             <Music className="h-16 w-16 mx-auto text-primary glow-effect animate-pulse" />
             <div className="absolute inset-0 h-16 w-16 mx-auto bg-primary/20 rounded-full blur-xl animate-pulse" />
           </div>
-          <p className="text-lg text-muted-foreground">Laddar din musikenhet...</p>
+          <p className="text-lg text-muted-foreground">Loading your music device...</p>
         </div>
       </div>
     );
@@ -112,7 +112,7 @@ const DeviceControl = () => {
             className="hover:bg-destructive/10 hover:text-destructive transition-colors"
           >
             <LogOut className="h-4 w-4 mr-2" />
-            Logga ut
+            Log out
           </Button>
         </div>
       </header>
@@ -122,7 +122,7 @@ const DeviceControl = () => {
         {/* Hero Section */}
         <div className="text-center mb-12 space-y-4 animate-fade-in">
           <h2 className="text-4xl md:text-5xl font-bold">
-            Välkommen till din <span className="bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent">musikvärld</span>
+            Welcome to your <span className="bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent">music world</span>
           </h2>
           <p className="text-foreground text-4xl font-bold">
             {device.name}
@@ -137,7 +137,7 @@ const DeviceControl = () => {
                 <div className="p-1.5 rounded-lg bg-primary/10">
                   <Radio className="h-3 w-3 text-primary" />
                 </div>
-                Enhetsstatus
+                Device Status
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -163,7 +163,7 @@ const DeviceControl = () => {
                 <div className="p-1.5 rounded-lg bg-primary/10">
                   <Volume2 className="h-3 w-3 text-primary" />
                 </div>
-                Aktuell volym
+                Current Volume
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -183,7 +183,7 @@ const DeviceControl = () => {
                 <div className="p-1.5 rounded-lg bg-primary/10">
                   <Activity className="h-3 w-3 text-primary" />
                 </div>
-                Uppspelning
+                Playback
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -191,12 +191,12 @@ const DeviceControl = () => {
                 {device.playbackStatus === 'playing' ? (
                   <span className="text-primary flex items-center gap-2">
                     <span className="h-1.5 w-1.5 bg-primary rounded-full animate-pulse" />
-                    Spelar
+                    Playing
                   </span>
                 ) : device.playbackStatus === 'paused' ? (
-                  <span className="text-warning">Pausad</span>
+                  <span className="text-warning">Paused</span>
                 ) : (
-                  <span className="text-muted-foreground">Stoppad</span>
+                  <span className="text-muted-foreground">Stopped</span>
                 )}
               </div>
             </CardContent>
@@ -210,7 +210,7 @@ const DeviceControl = () => {
             <CardHeader>
               <CardTitle className="text-2xl flex items-center gap-3">
                 <Music className="h-6 w-6 text-primary" />
-                Musikuppspelning
+                Music Playback
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -230,7 +230,7 @@ const DeviceControl = () => {
             <CardHeader>
               <CardTitle className="text-2xl flex items-center gap-3">
                 <Volume2 className="h-6 w-6 text-primary" />
-                Volymkontroll
+                Volume Control
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -248,7 +248,7 @@ const DeviceControl = () => {
           <CardHeader>
             <CardTitle className="text-xl flex items-center gap-3">
               <Radio className="h-5 w-5 text-primary" />
-              Enhetsinformation
+              Device Information
             </CardTitle>
           </CardHeader>
           <CardContent>

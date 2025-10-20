@@ -21,7 +21,7 @@ export const VolumeControl = ({ volume, onChange, disabled }: VolumeControlProps
           ) : (
             <Volume2 className="h-5 w-5 text-foreground" />
           )}
-          <span className="text-sm font-medium">Volym</span>
+          <span className="text-sm font-medium">Volume</span>
         </div>
         <span className="text-sm font-bold text-primary">{volume}%</span>
       </div>

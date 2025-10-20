@@ -15,9 +15,9 @@ export const DeviceStatus = ({ device }: DeviceStatusProps) => {
 
   const getStatusText = () => {
     if (device.status === 'offline') return 'Offline';
-    if (device.playbackStatus === 'playing') return 'Spelar';
-    if (device.playbackStatus === 'paused') return 'Pausad';
-    return 'Stoppad';
+    if (device.playbackStatus === 'playing') return 'Playing';
+    if (device.playbackStatus === 'paused') return 'Paused';
+    return 'Stopped';
   };
 
   return (
@@ -48,7 +48,7 @@ export const DeviceStatus = ({ device }: DeviceStatusProps) => {
           </div>
           {device.group && (
             <div className="col-span-2">
-              <span className="text-muted-foreground">Grupp: </span>
+              <span className="text-muted-foreground">Group: </span>
               <span className="font-medium text-accent truncate block">
                 {device.group}
               </span>

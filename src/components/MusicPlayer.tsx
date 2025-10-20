@@ -33,7 +33,7 @@ export const MusicPlayer = ({
           className="h-16 flex flex-col gap-1"
         >
           <Play className="h-6 w-6" />
-          <span className="text-xs">Spela</span>
+          <span className="text-xs">Play</span>
         </Button>
         <Button
           variant="secondary"
@@ -43,7 +43,7 @@ export const MusicPlayer = ({
           className="h-16 flex flex-col gap-1"
         >
           <Pause className="h-6 w-6" />
-          <span className="text-xs">Pausa</span>
+          <span className="text-xs">Pause</span>
         </Button>
         <Button
           variant="secondary"
@@ -53,7 +53,7 @@ export const MusicPlayer = ({
           className="h-16 flex flex-col gap-1"
         >
           <RotateCw className="h-6 w-6" />
-          <span className="text-xs">Starta om</span>
+          <span className="text-xs">Restart</span>
         </Button>
       </div>
     </div>
