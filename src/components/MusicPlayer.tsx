@@ -23,43 +23,37 @@ export const MusicPlayer = ({
   const disabled = device.status === 'offline' || isLoading;
 
   return (
-    <div className="space-y-6">
-      <div className="flex justify-center gap-4">
+    <div className="space-y-4">
+      <div className="grid grid-cols-3 gap-3">
         <Button
           size="lg"
-          variant={isPlaying ? "secondary" : "default"}
-          onClick={isPlaying ? onPause : onPlay}
-          disabled={disabled}
-          className="h-20 w-20 rounded-full glow-effect transition-all hover:scale-110"
+          variant="default"
+          onClick={onPlay}
+          disabled={disabled || isPlaying}
+          className="h-16 flex flex-col gap-1"
         >
-          {isPlaying ? (
-            <Pause className="h-8 w-8" />
-          ) : (
-            <Play className="h-8 w-8 ml-1" />
-          )}
+          <Play className="h-6 w-6" />
+          <span className="text-xs">Spela</span>
         </Button>
-      </div>
-
-      <div className="grid grid-cols-2 gap-3">
         <Button
           variant="secondary"
           size="lg"
-          onClick={onStop}
-          disabled={disabled || device.playbackStatus === 'stopped'}
-          className="h-16"
+          onClick={onPause}
+          disabled={disabled || device.playbackStatus !== 'playing'}
+          className="h-16 flex flex-col gap-1"
         >
-          <Square className="h-5 w-5 mr-2" />
-          Stoppa
+          <Pause className="h-6 w-6" />
+          <span className="text-xs">Pausa</span>
         </Button>
         <Button
           variant="secondary"
           size="lg"
           onClick={onRestart}
           disabled={disabled}
-          className="h-16"
+          className="h-16 flex flex-col gap-1"
         >
-          <RotateCw className="h-5 w-5 mr-2" />
-          Starta om
+          <RotateCw className="h-6 w-6" />
+          <span className="text-xs">Starta om</span>
         </Button>
       </div>
     </div>

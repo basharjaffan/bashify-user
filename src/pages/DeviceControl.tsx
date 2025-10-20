@@ -129,26 +129,26 @@ const DeviceControl = () => {
         </div>
 
         {/* Quick Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-          <Card className="bg-gradient-to-br from-card to-card/50 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all hover:scale-105 duration-300 glow-effect-accent">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-                <div className="p-2 rounded-lg bg-primary/10">
-                  <Radio className="h-4 w-4 text-primary" />
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+          <Card className="bg-gradient-to-br from-card to-card/50 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all hover:scale-105 duration-300">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-xs font-medium text-muted-foreground flex items-center gap-2">
+                <div className="p-1.5 rounded-lg bg-primary/10">
+                  <Radio className="h-3 w-3 text-primary" />
                 </div>
                 Enhetsstatus
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold">
+              <div className="text-xl font-bold">
                 {device.status === 'online' ? (
                   <span className="text-success flex items-center gap-2">
-                    <span className="h-2 w-2 bg-success rounded-full animate-pulse" />
+                    <span className="h-1.5 w-1.5 bg-success rounded-full animate-pulse" />
                     Online
                   </span>
                 ) : (
                   <span className="text-destructive flex items-center gap-2">
-                    <span className="h-2 w-2 bg-destructive rounded-full" />
+                    <span className="h-1.5 w-1.5 bg-destructive rounded-full" />
                     Offline
                   </span>
                 )}
@@ -156,18 +156,18 @@ const DeviceControl = () => {
             </CardContent>
           </Card>
 
-          <Card className="bg-gradient-to-br from-card to-card/50 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all hover:scale-105 duration-300 glow-effect-accent">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-                <div className="p-2 rounded-lg bg-primary/10">
-                  <Volume2 className="h-4 w-4 text-primary" />
+          <Card className="bg-gradient-to-br from-card to-card/50 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all hover:scale-105 duration-300">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-xs font-medium text-muted-foreground flex items-center gap-2">
+                <div className="p-1.5 rounded-lg bg-primary/10">
+                  <Volume2 className="h-3 w-3 text-primary" />
                 </div>
                 Aktuell volym
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold text-primary">{device.volume}%</div>
-              <div className="mt-2 h-2 bg-secondary rounded-full overflow-hidden">
+              <div className="text-xl font-bold text-primary">{device.volume}%</div>
+              <div className="mt-1.5 h-1.5 bg-secondary rounded-full overflow-hidden">
                 <div 
                   className="h-full bg-gradient-to-r from-primary to-primary-glow transition-all duration-300"
                   style={{ width: `${device.volume}%` }}
@@ -176,20 +176,20 @@ const DeviceControl = () => {
             </CardContent>
           </Card>
 
-          <Card className="bg-gradient-to-br from-card to-card/50 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all hover:scale-105 duration-300 glow-effect-accent">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-                <div className="p-2 rounded-lg bg-primary/10">
-                  <Activity className="h-4 w-4 text-primary" />
+          <Card className="bg-gradient-to-br from-card to-card/50 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all hover:scale-105 duration-300">
+            <CardHeader className="pb-2">
+              <CardTitle className="text-xs font-medium text-muted-foreground flex items-center gap-2">
+                <div className="p-1.5 rounded-lg bg-primary/10">
+                  <Activity className="h-3 w-3 text-primary" />
                 </div>
                 Uppspelning
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-3xl font-bold">
+              <div className="text-xl font-bold">
                 {device.playbackStatus === 'playing' ? (
                   <span className="text-primary flex items-center gap-2">
-                    <span className="h-2 w-2 bg-primary rounded-full animate-pulse" />
+                    <span className="h-1.5 w-1.5 bg-primary rounded-full animate-pulse" />
                     Spelar
                   </span>
                 ) : device.playbackStatus === 'paused' ? (
