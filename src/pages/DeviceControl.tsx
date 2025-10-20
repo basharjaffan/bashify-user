@@ -62,10 +62,11 @@ const DeviceControl = () => {
         pause: 'Pausar uppspelning',
         stop: 'Stoppar uppspelning',
         restart: 'Startar om enheten',
-        volume: 'Uppdaterar volym',
       };
 
-      toast.success(messages[type]);
+      if (type !== 'volume') {
+        toast.success(messages[type]);
+      }
 
       // Refresh device state
       const updatedDevice = await firebaseAPI.getDevice(device.id);
@@ -123,7 +124,7 @@ const DeviceControl = () => {
           <h2 className="text-4xl md:text-5xl font-bold">
             Välkommen till din <span className="bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent">musikvärld</span>
           </h2>
-          <p className="text-muted-foreground text-2xl font-semibold">
+          <p className="text-foreground text-4xl font-bold">
             {device.name}
           </p>
         </div>
