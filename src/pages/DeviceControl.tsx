@@ -50,10 +50,11 @@ const DeviceControl = () => {
 
     setCommandLoading(true);
     try {
+      const streamUrl = type === 'play' ? (device.currentUrl || 'https://icecast.royalstreamingplay.com/de6652a0-cafc-4f13-b64d-ac68880b53d9.mp3') : undefined;
       await firebaseAPI.sendCommand(
         device.id, 
         type,
-        type === 'play' ? device.streamUrl : undefined,
+        streamUrl,
         volume
       );
 
@@ -188,12 +189,12 @@ const DeviceControl = () => {
             </CardHeader>
             <CardContent>
               <div className="text-xl font-bold">
-                {device.playbackStatus === 'playing' ? (
+                {device.isPlaying ? (
                   <span className="text-primary flex items-center gap-2">
                     <span className="h-1.5 w-1.5 bg-primary rounded-full animate-pulse" />
                     Playing
                   </span>
-                ) : device.playbackStatus === 'paused' ? (
+                ) : device.status === 'paused' ? (
                   <span className="text-warning">Paused</span>
                 ) : (
                   <span className="text-muted-foreground">Stopped</span>
