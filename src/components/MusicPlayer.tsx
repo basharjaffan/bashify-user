@@ -19,8 +19,9 @@ export const MusicPlayer = ({
   onRestart,
   isLoading 
 }: MusicPlayerProps) => {
-  const isPlaying = device.playbackStatus === 'playing';
-  const disabled = device.status === 'offline' || isLoading;
+  const isPlaying = device.playbackStatus === 'playing' || (device as any)?.isPlaying === true;
+  const isOnline = device.status === 'online' || (device as any)?.isOnline === true || (device as any)?.online === true || isPlaying;
+  const disabled = !isOnline || isLoading;
 
   return (
     <div className="space-y-4">

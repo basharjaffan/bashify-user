@@ -25,6 +25,7 @@ const DeviceControl = () => {
 
     // Subscribe to real-time updates
     const unsubscribe = firebaseAPI.subscribeToDevice(deviceId, (updatedDevice) => {
+      console.log('[Device update]', updatedDevice);
       setDevice(updatedDevice);
     });
 
@@ -162,7 +163,7 @@ const DeviceControl = () => {
             </CardHeader>
             <CardContent>
               <div className="text-xl font-bold">
-                {device.status === 'online' ? (
+                {(device.status === 'online' || (device as any).isOnline === true || (device as any).online === true || device.playbackStatus === 'playing' || (device as any).isPlaying === true) ? (
                   <span className="text-success flex items-center gap-2">
                     <span className="h-1.5 w-1.5 bg-success rounded-full animate-pulse" />
                     Online
@@ -208,12 +209,12 @@ const DeviceControl = () => {
             </CardHeader>
             <CardContent>
               <div className="text-xl font-bold">
-                {device.playbackStatus === 'playing' ? (
+                {(device.playbackStatus === 'playing' || (device as any).isPlaying === true) ? (
                   <span className="text-primary flex items-center gap-2">
                     <span className="h-1.5 w-1.5 bg-primary rounded-full animate-pulse" />
                     Playing
                   </span>
-                ) : device.playbackStatus === 'paused' ? (
+                ) : (device.playbackStatus === 'paused') ? (
                   <span className="text-warning">Paused</span>
                 ) : (
                   <span className="text-muted-foreground">Stopped</span>
@@ -254,11 +255,11 @@ const DeviceControl = () => {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <VolumeControl
-                volume={device.volume}
-                onChange={(volume) => sendCommand('volume', volume)}
-                disabled={device.status === 'offline' || commandLoading}
-              />
+                <VolumeControl
+                  volume={device.volume}
+                  onChange={(volume) => sendCommand('volume', volume)}
+                  disabled={!(device.status === 'online' || (device as any).isOnline === true || (device as any).online === true || device.playbackStatus === 'playing' || (device as any).isPlaying === true) || commandLoading}
+                />
             </CardContent>
           </Card>
         </div>
