@@ -28,7 +28,15 @@ const DeviceControl = () => {
       setDevice(updatedDevice);
     });
 
-    return () => unsubscribe();
+    // Poll every 5 seconds as fallback
+    const interval = setInterval(() => {
+      loadDevice(deviceId);
+    }, 5000);
+
+    return () => {
+      unsubscribe();
+      clearInterval(interval);
+    };
   }, []);
 
   const loadDevice = async (deviceId: string) => {

@@ -28,31 +28,22 @@ export const MusicPlayer = ({
         <Button
           size="lg"
           variant="default"
-          onClick={isPlaying ? onPause : onPlay}
-          disabled={disabled}
+          onClick={onPlay}
+          disabled={disabled || isPlaying}
           className="h-16 flex flex-col gap-1"
         >
-          {isPlaying ? (
-            <>
-              <Pause className="h-6 w-6" />
-              <span className="text-xs">Pause</span>
-            </>
-          ) : (
-            <>
-              <Play className="h-6 w-6" />
-              <span className="text-xs">Play</span>
-            </>
-          )}
+          <Play className="h-6 w-6" />
+          <span className="text-xs">Play</span>
         </Button>
         <Button
           variant="secondary"
           size="lg"
-          onClick={onRestart}
-          disabled={disabled}
+          onClick={onPause}
+          disabled={disabled || !isPlaying}
           className="h-16 flex flex-col gap-1"
         >
-          <RotateCw className="h-6 w-6" />
-          <span className="text-xs">Restart</span>
+          <Pause className="h-6 w-6" />
+          <span className="text-xs">Pause</span>
         </Button>
       </div>
     </div>
