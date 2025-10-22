@@ -19,7 +19,7 @@ export const MusicPlayer = ({
   onRestart,
   isLoading 
 }: MusicPlayerProps) => {
-  const isPlaying = device.playbackStatus === 'playing';
+  const isPlaying = device.isPlaying === true;
   const disabled = device.status === 'offline' || isLoading;
 
   return (
