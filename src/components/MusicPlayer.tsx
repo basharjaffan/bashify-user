@@ -46,6 +46,26 @@ export const MusicPlayer = ({
           <Pause className="h-6 w-6" />
           <span className="text-xs">Pause</span>
         </Button>
+        <Button
+          variant="secondary"
+          size="lg"
+          onClick={onStop}
+          disabled={disabled}
+          className="h-16 flex flex-col gap-1"
+        >
+          <Square className="h-6 w-6" />
+          <span className="text-xs">Stop</span>
+        </Button>
+        <Button
+          variant="outline"
+          size="lg"
+          onClick={onRestart}
+          disabled={!isOnline || isLoading}
+          className="h-16 flex flex-col gap-1"
+        >
+          <RotateCw className="h-6 w-6" />
+          <span className="text-xs">Restart Device</span>
+        </Button>
       </div>
     </div>
   );
