@@ -1,6 +1,7 @@
-import { Wifi, WifiOff, Activity } from 'lucide-react';
+import { Wifi, WifiOff, Activity, Cpu, HardDrive } from 'lucide-react';
 import { Device } from '@/types';
 import { Badge } from '@/components/ui/badge';
+import { Card, CardContent } from '@/components/ui/card';
 
 interface DeviceStatusProps {
   device: Device;
@@ -13,68 +14,129 @@ const formatUptime = (uptime: any): string => {
   const seconds = Number(uptime);
   if (isNaN(seconds)) return String(uptime);
   
-  const days = Math.floor(seconds / 86400);
-  const hours = Math.floor((seconds % 86400) / 3600);
-  const minutes = Math.floor((seconds % 3600) / 60);
+  return seconds.toFixed(2);
+};
+
+const formatLastSeen = (lastSeen: any): string => {
+  if (!lastSeen) return 'N/A';
   
-  const parts = [];
-  if (days > 0) parts.push(`${days}d`);
-  if (hours > 0) parts.push(`${hours}h`);
-  if (minutes > 0 || parts.length === 0) parts.push(`${minutes}m`);
-  
-  return parts.join(' ');
+  try {
+    const date = lastSeen instanceof Date ? lastSeen : new Date(lastSeen);
+    return date.toLocaleString('sv-SE', { 
+      year: 'numeric', 
+      month: '2-digit', 
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit'
+    });
+  } catch {
+    return 'N/A';
+  }
 };
 
 export const DeviceStatus = ({ device }: DeviceStatusProps) => {
-  const getStatusColor = () => {
-    if (device.status === 'offline') return 'bg-destructive/20 text-destructive border-destructive/50';
-    if (device.playbackStatus === 'playing') return 'bg-accent/20 text-accent border-accent/50';
-    return 'bg-success/20 text-success border-success/50';
-  };
-
-  const getStatusText = () => {
-    if (device.status === 'offline') return 'Offline';
-    if (device.playbackStatus === 'playing') return 'Playing';
-    if (device.playbackStatus === 'paused') return 'Paused';
-    return 'Stopped';
-  };
-
+  const isOnline = device.status === 'online' || (device as any).isOnline === true || (device as any).online === true || device.playbackStatus === 'playing';
+  
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-3">
-          {device.status === 'online' ? (
-            <Wifi className="h-5 w-5 text-success" />
-          ) : (
-            <WifiOff className="h-5 w-5 text-destructive" />
-          )}
-          <div>
-            <h3 className="font-semibold">{device.name}</h3>
-            <p className="text-sm text-muted-foreground">{device.ipAddress}</p>
+    <div className="space-y-6">
+      {/* Connection Info */}
+      <div className="grid grid-cols-2 gap-4">
+        <div className="flex items-start gap-3">
+          <Wifi className="h-5 w-5 text-muted-foreground mt-0.5" />
+          <div className="flex-1">
+            <p className="text-sm text-muted-foreground mb-1">Connection</p>
+            <p className="font-medium">{isOnline ? 'WiFi' : 'Offline'}</p>
           </div>
         </div>
-        <Badge className={getStatusColor()}>
-          {getStatusText()}
-        </Badge>
+        
+        <div className="flex items-start gap-3">
+          <Wifi className="h-5 w-5 text-muted-foreground mt-0.5" />
+          <div className="flex-1">
+            <p className="text-sm text-muted-foreground mb-1">Network</p>
+            <p className="font-medium">{device.network || 'N/A'}</p>
+          </div>
+        </div>
       </div>
 
-      {device.status === 'online' && (
-        <div className="grid grid-cols-2 gap-4 text-sm">
-          <div className="flex items-center gap-2">
-            <Activity className="h-4 w-4 text-muted-foreground" />
-            <span className="text-muted-foreground">Uptime:</span>
-            <span className="font-medium">{formatUptime(device.uptime)}</span>
+      {/* IP Address */}
+      <div className="flex items-start gap-3">
+        <Wifi className="h-5 w-5 text-muted-foreground mt-0.5" />
+        <div className="flex-1">
+          <p className="text-sm text-muted-foreground mb-1">IP Address</p>
+          <p className="font-medium">{device.ipAddress}</p>
+        </div>
+      </div>
+
+      {/* Group */}
+      {device.group && (
+        <div className="flex items-start gap-3">
+          <Activity className="h-5 w-5 text-muted-foreground mt-0.5" />
+          <div className="flex-1">
+            <p className="text-sm text-muted-foreground mb-1">Group</p>
+            <p className="font-medium">{device.group}</p>
           </div>
-          {device.group && (
-            <div className="col-span-2">
-              <span className="text-muted-foreground">Group: </span>
-              <span className="font-medium text-accent truncate block">
-                {device.group}
-              </span>
-            </div>
-          )}
         </div>
       )}
+
+      {/* Uptime */}
+      <div className="flex items-start gap-3">
+        <Activity className="h-5 w-5 text-muted-foreground mt-0.5" />
+        <div className="flex-1">
+          <p className="text-sm text-muted-foreground mb-1">Uptime</p>
+          <p className="font-medium text-primary">{formatUptime(device.uptime)}</p>
+        </div>
+      </div>
+
+      {/* Last Seen */}
+      <div className="flex items-start gap-3">
+        <Activity className="h-5 w-5 text-muted-foreground mt-0.5" />
+        <div className="flex-1">
+          <p className="text-sm text-muted-foreground mb-1">Last Seen</p>
+          <p className="font-medium text-primary">{formatLastSeen(device.lastSeen)}</p>
+        </div>
+      </div>
+
+      {/* Version */}
+      {device.version && (
+        <div className="flex items-start gap-3">
+          <Activity className="h-5 w-5 text-muted-foreground mt-0.5" />
+          <div className="flex-1">
+            <p className="text-sm text-muted-foreground mb-1">Version</p>
+            <p className="font-medium">{device.version}</p>
+          </div>
+        </div>
+      )}
+
+      {/* System Performance */}
+      <div className="pt-6 border-t border-border/50">
+        <h3 className="text-sm text-muted-foreground mb-4">System Performance</h3>
+        <div className="grid grid-cols-3 gap-4">
+          <Card className="bg-background/50 border-border/50">
+            <CardContent className="p-4 text-center">
+              <Cpu className="h-8 w-8 text-primary mx-auto mb-2" />
+              <p className="text-2xl font-bold mb-1">{device.cpu !== undefined ? `${device.cpu.toFixed(1)}%` : '0.0%'}</p>
+              <p className="text-xs text-muted-foreground">CPU</p>
+            </CardContent>
+          </Card>
+          
+          <Card className="bg-background/50 border-border/50">
+            <CardContent className="p-4 text-center">
+              <Activity className="h-8 w-8 text-warning mx-auto mb-2" />
+              <p className="text-2xl font-bold mb-1">{device.ram !== undefined ? `${device.ram.toFixed(1)}%` : '0.0%'}</p>
+              <p className="text-xs text-muted-foreground">RAM</p>
+            </CardContent>
+          </Card>
+          
+          <Card className="bg-background/50 border-border/50">
+            <CardContent className="p-4 text-center">
+              <HardDrive className="h-8 w-8 text-accent mx-auto mb-2" />
+              <p className="text-2xl font-bold mb-1">{device.disk !== undefined ? `${device.disk.toFixed(0)}%` : '0%'}</p>
+              <p className="text-xs text-muted-foreground">Disk</p>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
     </div>
   );
 };

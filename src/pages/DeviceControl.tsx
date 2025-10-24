@@ -8,7 +8,7 @@ import { DeviceStatus } from '@/components/DeviceStatus';
 import { VolumeControl } from '@/components/VolumeControl';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { LogOut, RefreshCw, Music2, Volume2, Radio, Activity, Music } from 'lucide-react';
+import { LogOut, RefreshCw, Music2, Volume2, Radio, Activity, Music, Settings } from 'lucide-react';
 import { toast } from 'sonner';
 
 const DeviceControl = () => {
@@ -49,7 +49,7 @@ const DeviceControl = () => {
     }
   };
 
-  const sendCommand = async (type: 'play' | 'pause' | 'stop' | 'restart' | 'volume', volume?: number) => {
+  const sendCommand = async (type: 'play' | 'pause' | 'stop' | 'restart' | 'volume' | 'update', volume?: number) => {
     if (!device) return;
 
     setCommandLoading(true);
@@ -68,6 +68,7 @@ const DeviceControl = () => {
         pause: 'Pausing playback',
         stop: 'Stopping playback',
         restart: 'Restarting device',
+        update: 'Updating system',
       };
 
       if (type !== 'volume') {
@@ -105,17 +106,26 @@ const DeviceControl = () => {
         <div className="container mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Music className="h-8 w-8 text-primary" />
-            <h1 className="text-2xl font-bold text-foreground">Bashify</h1>
+            <div>
+              <h1 className="text-2xl font-bold text-foreground">Bashify</h1>
+              <p className="text-sm text-muted-foreground">Music System</p>
+            </div>
           </div>
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            onClick={handleLogout}
-            className="hover:bg-destructive/10 hover:text-destructive transition-colors"
-          >
-            <LogOut className="h-4 w-4 mr-2" />
-            Log out
-          </Button>
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <span className="h-2 w-2 bg-success rounded-full animate-pulse" />
+              <span className="text-sm font-medium text-success">Online</span>
+            </div>
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={handleLogout}
+              className="hover:bg-destructive/10 hover:text-destructive transition-colors"
+            >
+              <LogOut className="h-4 w-4 mr-2" />
+              Log out
+            </Button>
+          </div>
         </div>
       </header>
 
@@ -126,83 +136,9 @@ const DeviceControl = () => {
           <h2 className="text-4xl md:text-5xl font-bold">
             Welcome to your <span className="bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent">music world</span>
           </h2>
-          <p className="text-foreground text-4xl font-bold">
+          <p className="text-foreground text-3xl font-bold">
             {device.name}
           </p>
-        </div>
-
-        {/* Quick Stats */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-          <Card className="bg-gradient-to-br from-card to-card/50 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all hover:scale-105 duration-300">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-xs font-medium text-muted-foreground flex items-center gap-2">
-                <div className="p-1.5 rounded-lg bg-primary/10">
-                  <Radio className="h-3 w-3 text-primary" />
-                </div>
-                Device Status
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-xl font-bold">
-                {(device.status === 'online' || (device as any).isOnline === true || (device as any).online === true || device.playbackStatus === 'playing' || (device as any).isPlaying === true) ? (
-                  <span className="text-success flex items-center gap-2">
-                    <span className="h-1.5 w-1.5 bg-success rounded-full animate-pulse" />
-                    Online
-                  </span>
-                ) : (
-                  <span className="text-destructive flex items-center gap-2">
-                    <span className="h-1.5 w-1.5 bg-destructive rounded-full" />
-                    Offline
-                  </span>
-                )}
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-gradient-to-br from-card to-card/50 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all hover:scale-105 duration-300">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-xs font-medium text-muted-foreground flex items-center gap-2">
-                <div className="p-1.5 rounded-lg bg-primary/10">
-                  <Volume2 className="h-3 w-3 text-primary" />
-                </div>
-                Current Volume
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-xl font-bold text-primary">{device.volume}%</div>
-              <div className="mt-1.5 h-1.5 bg-secondary rounded-full overflow-hidden">
-                <div 
-                  className="h-full bg-gradient-to-r from-primary to-primary-glow transition-all duration-300"
-                  style={{ width: `${device.volume}%` }}
-                />
-              </div>
-            </CardContent>
-          </Card>
-
-          <Card className="bg-gradient-to-br from-card to-card/50 backdrop-blur-sm border-border/50 hover:border-primary/50 transition-all hover:scale-105 duration-300">
-            <CardHeader className="pb-2">
-              <CardTitle className="text-xs font-medium text-muted-foreground flex items-center gap-2">
-                <div className="p-1.5 rounded-lg bg-primary/10">
-                  <Activity className="h-3 w-3 text-primary" />
-                </div>
-                Playback
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="text-xl font-bold">
-                {(device.playbackStatus === 'playing' || (device as any).isPlaying === true) ? (
-                  <span className="text-primary flex items-center gap-2">
-                    <span className="h-1.5 w-1.5 bg-primary rounded-full animate-pulse" />
-                    Playing
-                  </span>
-                ) : (device.playbackStatus === 'paused') ? (
-                  <span className="text-warning">Paused</span>
-                ) : (
-                  <span className="text-muted-foreground">Stopped</span>
-                )}
-              </div>
-            </CardContent>
-          </Card>
         </div>
 
         {/* Two Column Layout */}
@@ -211,7 +147,7 @@ const DeviceControl = () => {
           <Card className="bg-gradient-to-br from-card via-card to-primary/5 backdrop-blur-sm border-primary/20 animate-fade-in">
             <CardHeader>
               <CardTitle className="text-2xl flex items-center gap-3">
-                <Music className="h-6 w-6 text-primary" />
+                <Settings className="h-6 w-6 text-primary" />
                 Device Control
               </CardTitle>
             </CardHeader>
@@ -235,6 +171,16 @@ const DeviceControl = () => {
               <div className="space-y-3 pt-4">
                 <h3 className="text-sm font-medium text-muted-foreground">System Controls</h3>
                 <Button
+                  variant="outline"
+                  size="lg"
+                  onClick={() => sendCommand('update')}
+                  disabled={!(device.status === 'online' || (device as any).isOnline === true || (device as any).online === true || device.playbackStatus === 'playing' || (device as any).isPlaying === true) || commandLoading}
+                  className="w-full h-12"
+                >
+                  <RefreshCw className="h-5 w-5 mr-2" />
+                  Update System
+                </Button>
+                <Button
                   variant="destructive"
                   size="lg"
                   onClick={() => sendCommand('restart')}
@@ -252,7 +198,7 @@ const DeviceControl = () => {
           <Card className="bg-gradient-to-br from-card to-card/50 backdrop-blur-sm border-border/50 animate-fade-in">
             <CardHeader>
               <CardTitle className="text-xl flex items-center gap-3">
-                <Radio className="h-5 w-5 text-primary" />
+                <Activity className="h-5 w-5 text-primary" />
                 Device Information
               </CardTitle>
             </CardHeader>
