@@ -224,14 +224,14 @@ const DeviceControl = () => {
           </Card>
         </div>
 
-        {/* Main Control Grid */}
+        {/* Two Column Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Music Player */}
+          {/* Left Column - Device Control */}
           <Card className="bg-gradient-to-br from-card via-card to-primary/5 backdrop-blur-sm border-primary/20 animate-fade-in">
             <CardHeader>
               <CardTitle className="text-2xl flex items-center gap-3">
                 <Music className="h-6 w-6 text-primary" />
-                Music Playback
+                Device Control
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
@@ -243,39 +243,43 @@ const DeviceControl = () => {
                 onRestart={() => sendCommand('restart')}
                 isLoading={commandLoading}
               />
+              
+              <VolumeControl
+                volume={device.volume}
+                onChange={(volume) => sendCommand('volume', volume)}
+                disabled={!(device.status === 'online' || (device as any).isOnline === true || (device as any).online === true || device.playbackStatus === 'playing' || (device as any).isPlaying === true) || commandLoading}
+              />
+
+              {/* System Controls */}
+              <div className="space-y-3 pt-4">
+                <h3 className="text-sm font-medium text-muted-foreground">System Controls</h3>
+                <Button
+                  variant="destructive"
+                  size="lg"
+                  onClick={() => sendCommand('restart')}
+                  disabled={!(device.status === 'online' || (device as any).isOnline === true || (device as any).online === true || device.playbackStatus === 'playing' || (device as any).isPlaying === true) || commandLoading}
+                  className="w-full h-12"
+                >
+                  <RefreshCw className="h-5 w-5 mr-2" />
+                  Restart Device
+                </Button>
+              </div>
             </CardContent>
           </Card>
 
-          {/* Volume Control */}
-          <Card className="bg-gradient-to-br from-card via-card to-primary/5 backdrop-blur-sm border-primary/20 animate-fade-in">
+          {/* Right Column - Device Information */}
+          <Card className="bg-gradient-to-br from-card to-card/50 backdrop-blur-sm border-border/50 animate-fade-in">
             <CardHeader>
-              <CardTitle className="text-2xl flex items-center gap-3">
-                <Volume2 className="h-6 w-6 text-primary" />
-                Volume Control
+              <CardTitle className="text-xl flex items-center gap-3">
+                <Radio className="h-5 w-5 text-primary" />
+                Device Information
               </CardTitle>
             </CardHeader>
             <CardContent>
-                <VolumeControl
-                  volume={device.volume}
-                  onChange={(volume) => sendCommand('volume', volume)}
-                  disabled={!(device.status === 'online' || (device as any).isOnline === true || (device as any).online === true || device.playbackStatus === 'playing' || (device as any).isPlaying === true) || commandLoading}
-                />
+              <DeviceStatus device={device} />
             </CardContent>
           </Card>
         </div>
-
-        {/* Device Info */}
-        <Card className="mt-8 bg-gradient-to-br from-card to-card/50 backdrop-blur-sm border-border/50 animate-fade-in">
-          <CardHeader>
-            <CardTitle className="text-xl flex items-center gap-3">
-              <Radio className="h-5 w-5 text-primary" />
-              Device Information
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <DeviceStatus device={device} />
-          </CardContent>
-        </Card>
       </main>
 
       {/* Footer */}

@@ -25,28 +25,25 @@ export const MusicPlayer = ({
 
   return (
     <div className="space-y-4">
-      <div className="grid grid-cols-2 gap-3">
-        <Button
-          size="lg"
-          variant="default"
-          onClick={onPlay}
-          disabled={disabled || isPlaying}
-          className="h-16 flex flex-col gap-1"
-        >
-          <Play className="h-6 w-6" />
-          <span className="text-xs">Play</span>
-        </Button>
-        <Button
-          variant="secondary"
-          size="lg"
-          onClick={onPause}
-          disabled={disabled || !isPlaying}
-          className="h-16 flex flex-col gap-1"
-        >
-          <Pause className="h-6 w-6" />
-          <span className="text-xs">Pause</span>
-        </Button>
-      </div>
+      <Button
+        size="lg"
+        variant={isPlaying ? "default" : "outline"}
+        onClick={isPlaying ? onPause : onPlay}
+        disabled={disabled}
+        className="w-full h-20 text-lg"
+      >
+        {isPlaying ? (
+          <>
+            <Pause className="h-6 w-6 mr-2" />
+            Pause
+          </>
+        ) : (
+          <>
+            <Play className="h-6 w-6 mr-2" />
+            Play
+          </>
+        )}
+      </Button>
     </div>
   );
 };
