@@ -27,16 +27,11 @@ const DeviceControl = () => {
     const unsubscribe = firebaseAPI.subscribeToDevice(deviceId, (updatedDevice) => {
       console.log('[Device update]', updatedDevice);
       setDevice(updatedDevice);
+      setIsLoading(false);
     });
-
-    // Poll every 5 seconds as fallback
-    const interval = setInterval(() => {
-      loadDevice(deviceId);
-    }, 5000);
 
     return () => {
       unsubscribe();
-      clearInterval(interval);
     };
   }, []);
 
@@ -58,17 +53,6 @@ const DeviceControl = () => {
     if (!device) return;
 
     setCommandLoading(true);
-    
-    // Optimistically update the UI immediately
-    if (type === 'play') {
-      setDevice({ ...device, playbackStatus: 'playing' });
-    } else if (type === 'pause') {
-      setDevice({ ...device, playbackStatus: 'paused' });
-    } else if (type === 'stop') {
-      setDevice({ ...device, playbackStatus: 'stopped' });
-    } else if (type === 'volume' && volume !== undefined) {
-      setDevice({ ...device, volume });
-    }
 
     try {
       const streamUrl = type === 'play' ? (device.streamUrl || 'https://icecast.royalstreamingplay.com/de6652a0-cafc-4f13-b64d-ac68880b53d9.mp3') : undefined;
@@ -91,9 +75,6 @@ const DeviceControl = () => {
       }
     } catch (error) {
       toast.error('Command failed');
-      // Revert optimistic update on error
-      const revertedDevice = await firebaseAPI.getDevice(device.id);
-      if (revertedDevice) setDevice(revertedDevice);
     } finally {
       setCommandLoading(false);
     }
