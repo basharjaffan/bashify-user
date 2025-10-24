@@ -6,6 +6,25 @@ interface DeviceStatusProps {
   device: Device;
 }
 
+const formatUptime = (uptime: any): string => {
+  if (!uptime) return 'N/A';
+  
+  // Uptime from Firebase is in seconds
+  const seconds = Number(uptime);
+  if (isNaN(seconds)) return String(uptime);
+  
+  const days = Math.floor(seconds / 86400);
+  const hours = Math.floor((seconds % 86400) / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  
+  const parts = [];
+  if (days > 0) parts.push(`${days}d`);
+  if (hours > 0) parts.push(`${hours}h`);
+  if (minutes > 0 || parts.length === 0) parts.push(`${minutes}m`);
+  
+  return parts.join(' ');
+};
+
 export const DeviceStatus = ({ device }: DeviceStatusProps) => {
   const getStatusColor = () => {
     if (device.status === 'offline') return 'bg-destructive/20 text-destructive border-destructive/50';
@@ -44,7 +63,7 @@ export const DeviceStatus = ({ device }: DeviceStatusProps) => {
           <div className="flex items-center gap-2">
             <Activity className="h-4 w-4 text-muted-foreground" />
             <span className="text-muted-foreground">Uptime:</span>
-            <span className="font-medium">{device.uptime}</span>
+            <span className="font-medium">{formatUptime(device.uptime)}</span>
           </div>
           {device.group && (
             <div className="col-span-2">
